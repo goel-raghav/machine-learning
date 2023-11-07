@@ -2,12 +2,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 class Model:
-    def __init__(self, X: np.ndarray, W: np.ndarray, Y: np.ndarray):
+    def __init__(self, X: np.ndarray, Y: np.ndarray, scale: bool = False):
         self.X = X
+        if scale:
+            self._scale()
         ones = np.ones((X.shape[0], 1))
         self.X = np.column_stack((ones, self.X))
         
-        self.W = W
+        self.W = np.zeros((self.X.shape[1]))
         self.Y = Y
         
     def fit(self, max_iter: int = 1000, learning_rate: float = 0.01) -> None:
@@ -31,7 +33,7 @@ class Model:
         descent = np.mean(descent, axis = 0)
         return descent
     
-    def scale(self):
+    def _scale(self):
         mean = np.mean(self.X, axis=0)
         std = np.std(self.X, axis=0)
         
