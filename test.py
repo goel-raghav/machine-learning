@@ -16,5 +16,6 @@ w = np.zeros(x.shape[-1] + 1)
 lr = LinearRegression.Model(x, w, y) 
 iterations = lr.fit(10000)
 
+
 print(lr.W)
 print(iterations)

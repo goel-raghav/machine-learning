@@ -1,5 +1,5 @@
 import numpy as np
-import matplotlib.pyplot
+import matplotlib.pyplot as plt
 
 class Model:
     def __init__(self, X: np.ndarray, W: np.ndarray, Y: np.ndarray):
@@ -15,7 +15,7 @@ class Model:
         count = 0
         
         while not finished and count < max_iter:
-            descent = self._calculate_descent()
+            descent = self._batch_descent()
             self.W -= learning_rate * descent
             count += 1
             
@@ -24,9 +24,17 @@ class Model:
             
         return count
         
-    def _calculate_descent(self):
+    def _batch_descent(self):
         Y_pred = np.dot(self.X, self.W)
         difference = (Y_pred - self.Y).reshape(-1, 1)
         descent = self.X * difference
         descent = np.mean(descent, axis = 0)
         return descent
+    
+    def scale(self):
+        mean = np.mean(self.X, axis=0)
+        std = np.std(self.X, axis=0)
+        
+        self.X -= mean
+        self.X /= std
+        
